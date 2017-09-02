@@ -7,6 +7,7 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -25,7 +26,14 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
+     <input type="text" id="message" value="Type message here">
+     <button class="submit">Submit</button>
+     <script>
+        // $('.submit').on('click', function(){
+        //   window.text = $('#message').val();
+        //   alert(window.text);
+        // })
+     </script>
     </div>
     <div id="chats"></div>
   </body>
