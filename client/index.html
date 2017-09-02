@@ -26,13 +26,22 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-     <input type="text" id="message" value="Type message here">
+        <div id="rooms">
+          <b>Room: </b> <select id="roomSelect">
+              <option class="lobby" value="lobby">lobby</option>
+              <option class="friends" value="friends" >friends</option>
+              <option class="best friends" value="best friends">best friends</option>
+            </select>
+        </div>
+        <br/>
+     <input type="text" id="message">
      <button class="submit">Submit</button>
      <script>
-        // $('.submit').on('click', function(){
-        //   window.text = $('#message').val();
-        //   alert(window.text);
-        // })
+        $('.submit').on('click', function(){
+          window.text = $('#message').val();
+          alert(window.text);
+          app.send(window.text);
+        })
      </script>
     </div>
     <div id="chats"></div>

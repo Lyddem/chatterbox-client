@@ -1,61 +1,62 @@
- var app = {
+var message = {
+  username: window.location.search.slice(10, window.location.search.length),
+  text: window.text,
+  // roomname: roomSelect.value
+};
+
+var app = {
+
+  server: 'http://parse.hrr.hackreactor.com/chatterbox/classes/messages',
 
   init: function () {
-  // 	$(document).ready(function() {
-  		$('.submit').on('click', function () {
-  			onSubmit();
-  		})
-  // 	})
+  //  $(document).ready(function() {
+    $('.submit').on('click', function () {
+      onSubmit();
+    });
+  //  })
   },
 
- 	onSubmit: function(e) {
-  e.preventDefault();
+  onSubmit: function(e) {
+    e.preventDefault();
 
     var message = {
       text: $('#message').val()
-    };
+  };
 
     app.send(message);
   },
 
   send: function (message) {
-  	//submit a POST request via $.ajax
-  	$.ajax({
-		  // This is the url you should use to communicate with the parse API server.
-		  url: 'http://parse.hrr.hackreactor.com/chatterbox/classes/messages',
-		  type: 'POST',
-		  data: JSON.stringify(message),
-		  contentType: 'application/json',
-		  success: function (data) {
-		    console.log('chatterbox: Message sent');
-		  },
-		  error: function (data) {
-		    // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-		    console.error('chatterbox: Failed to send message', data);
-  		}
-		});
+    $.ajax({
+      url: this.server,
+      type: 'POST',
+      data: message,
+      contentType: 'application/json',
+      success: function (data) {
+        console.log('chatterbox: Message sent');
+      },
+      error: function (data) {
+        console.error('chatterbox: Failed to send message', data);
+      }
+    });
 
   },
 
   fetch: function() {
-  	$.ajax({
-		  // This is the url you should use to communicate with the parse API server.
-		  url: 'http://parse.hrr.hackreactor.com/chatterbox/classes/messages',
-		  type: 'GET',
-		  data: {},
-		  contentType: 'application/json',
-		  success: function (data) {
-		    console.log('chatterbox: Message received');
-		  },
-		  error: function (data) {
-		    // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-		    console.error('chatterbox: Failed to receive message', data);
-  		}
-		});
+    $.ajax({
+      url: app.server,
+      type: 'GET',
+      success: function (data) {
+        console.log('get data', data);
+      },
+      error: function (data) {
+        console.error('chatterbox: Failed to receive message', data);
+      }
+    });
   },
 
   clearMessages: function () {
-
+    $('#chats').empty();
   },
 
   renderMessage: function () {
@@ -68,6 +69,8 @@
   // return app;
 };
 
-app.init();
+$(document).ready(app.init);
 console.log('hello');
-
+console.log($("roomSelect:selected").val());
+// console.log( window.location.search.slice(10, window.location.search.length));
+// console.log(window.newsearch.slice(11, window.newsearch.length));
