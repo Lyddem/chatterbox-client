@@ -1,38 +1,14 @@
-var message = {
-  username: window.location.search.slice(10, window.location.search.length),
-  text: window.text,
-  // roomname: roomSelect.value
-};
-
 var app = {
 
   server: 'http://parse.hrr.hackreactor.com/chatterbox/classes/messages',
 
-  init: function () {
-  //  $(document).ready(function() {
-    $('.submit').on('click', function () {
-      onSubmit();
-    });
-  //  })
-  },
-
-  onSubmit: function(e) {
-    e.preventDefault();
-
-    var message = {
-      text: $('#message').val()
-  };
-
-    app.send(message);
-  },
-
-  send: function (message) {
+  send: function (messageObj) {
     $.ajax({
       url: this.server,
       type: 'POST',
-      data: message,
+      data: JSON.stringify(messageObj),
       contentType: 'application/json',
-      success: function (data) {
+      success: function() {
         console.log('chatterbox: Message sent');
       },
       error: function (data) {
@@ -46,6 +22,7 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
+      data: { order: "-createdAt"},
       success: function (data) {
         console.log('get data', data);
       },
@@ -59,18 +36,53 @@ var app = {
     $('#chats').empty();
   },
 
-  renderMessage: function () {
+  renderMessage: function (message) {
+
+      $('#chats').append("<div>" +  message.username + ": " + message.text +  "</div>");
+      app.send(window.text);
+
+      $('#message').val('');
+  // })
+  },
+
+  renderRoom: function (room) {
+    $('#roomSelect').append("<option>" + room + "</option>");
+
+    // 1. var $option = $('<option/>').val(room).text(room).
+    // 2. append to options
+
+    //encode uri
 
   },
 
-  renderRoom: function () {
+  handleUsernameClick: function (event) {
 
+  },
+
+  handleSubmit: function () {
+    var message  = {};
+
+      message.username = window.location.search.slice(10, window.location.search.length),
+      message.text = $('#message').val(),
+      message.roomname = $('#roomSelect').val()
+
+      app.send(message);
+      app.renderMessage(message);
+
+  },
+
+  init: function () {
+
+    $('.submit').on('click', function(){
+        app.handleSubmit();
+    });
+
+    app.fetch();
   }
-  // return app;
+
+
 };
 
 $(document).ready(app.init);
-console.log('hello');
-console.log($("roomSelect:selected").val());
-// console.log( window.location.search.slice(10, window.location.search.length));
-// console.log(window.newsearch.slice(11, window.newsearch.length));
+
+

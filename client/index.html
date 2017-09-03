@@ -30,20 +30,39 @@
           <b>Room: </b> <select id="roomSelect">
               <option class="lobby" value="lobby">lobby</option>
               <option class="friends" value="friends" >friends</option>
-              <option class="best friends" value="best friends">best friends</option>
+              <option class="best friends" value="best friends"> best friends</option>
             </select>
-        </div>
+        </div> <br />
+         <div id="createRoom">
+            <input type="text" id="newRoom">
+            <button class="createRoom">Create Room</button>
+         </div>
         <br/>
      <input type="text" id="message">
-     <button class="submit">Submit</button>
+     <button class="submit" id="send">Submit</button>
+
+     <div class="username"></div>
+
      <script>
-        $('.submit').on('click', function(){
-          window.text = $('#message').val();
-          alert(window.text);
-          app.send(window.text);
+
+        $('.createRoom').on('click', function() {
+          window.newRoom = $('#newRoom').val();
+          app.renderRoom(window.newRoom);
+          $('#newRoom').val("");
         })
+
+        // $('.submit').on('click', function(){
+        //   window.text = $('#message').val();
+        //   //alert(window.text);
+        //   $('#chats').append("<p>" + message.username + ': ' + window.text + "</p>");
+        //   app.send(window.text);
+        //   $('#message').val("");
+        //})
      </script>
     </div>
     <div id="chats"></div>
   </body>
 </html>
+
+
+
